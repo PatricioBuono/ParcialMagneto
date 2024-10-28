@@ -7,7 +7,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DnaRepository extends JpaRepository<Dna, Long> {
 
-    // El servicio se comunica con este repositorio
-    // Se pueden agregar metodos
+    boolean existsByDna(String dna);
+    Dna findByDna(String dna);
+
+    long countByIsMutantTrue();
+    long countByIsMutantFalse();
 }
 

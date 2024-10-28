@@ -15,6 +15,18 @@ public class DnaService {
     }
 
     public boolean isMutant(String[] dna) {
+        // Verifica que la cadena de ADN no esta vacia o tenga caracteres invalidos
+        if (dna == null || dna.length == 0 || !isValidDna(dna)) {
+            throw new IllegalArgumentException("La cadena de ADN es invalida");
+        }
+
+        String dnaHash = String.join(",", dna);
+        // verifica si ya existe en la base de datos
+        if (dnaRepository.existsByDna(dnaHash)) {
+            return dnaRepository.findByDna(dnaHash).isMutant();
+        }
+
+        // Logica para verificar si un ADN es mutante o no
         int n = dna.length;
 
         if (checkRows(dna, n) || checkColumns(dna, n) || checkDiagonals(dna, n)){
@@ -90,5 +102,16 @@ public class DnaService {
         dnaRepository.save(dnaEntity);
     }
 
+    private boolean isValidDna(String[] dna){
+        for (String row: dna){
+            if (row == null || row.isEmpty() || !row.matches("[ATCG]+")){
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
+
+
 

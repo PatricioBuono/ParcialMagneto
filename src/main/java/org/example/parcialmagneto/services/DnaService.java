@@ -15,8 +15,8 @@ public class DnaService {
     }
 
     public boolean isMutant(String[] dna) {
-        // Verifica que la cadena de ADN no esta vacia o tenga caracteres invalidos
-        if (dna == null || dna.length == 0 || !isValidDna(dna)) {
+        // Verifica que la cadena de ADN no esta vacia o tenga caracteres invalidos o que la matriz no sea de nxn
+        if (dna == null || dna.length == 0 || !isValidDna(dna) || !areRowsEqual(dna)) {
             throw new IllegalArgumentException("La cadena de ADN es invalida");
         }
 
@@ -111,6 +111,16 @@ public class DnaService {
         return true;
     }
 
+    // verifica que las filas sean de la misma longitud
+    private boolean areRowsEqual(String[] dna){
+        int expectedLength = dna.length;
+        for (String row: dna){
+            if (row.length() != expectedLength){
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
 
